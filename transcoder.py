@@ -1,4 +1,6 @@
-import glob
+import glob, ffmpeg
+
+
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -37,6 +39,7 @@ def main():
     directories = open("blacklist.txt", "w+")
     video_files = file_search(file_directory)
     
+    
     blacklist_list = []
     for line in directories:
         blacklist_list.append(line)
@@ -53,28 +56,36 @@ def compare_list(user_input, c_list):  # Takes a list and compares users input a
             break
     return found
 
+
+    file_directory = (r" ")
+    bitrate = 10000000
+    video_files = file_search(file_directory)
+    print(video_files)
+    for i in range(len(video_files)):
+        transcode(video_files[i], bitrate)
+        
+        
+# searches recursivly for all file extensions in variable 'extensions'
+
+
 def file_search(file_direct):
     files = []
     for x in range(len(extensions)):
         temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
- 
 
 
-            
+def transcode(file, bitrate):
+    output = ""
+    for i in range(len(file)):
+        if file[i] != "." :
+            output = output + file[i]
+        else:
+            break
+    stream = ffmpeg.input(file)
+    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    ffmpeg.run(stream)
+
                 
 main()
-
-#    with open("blacklist", "a") as directories:
-#         for x in range(len(video_files)):
-#             directories.write(f"{video_files[x]}\n")
-#         directories.close()
-        
-#    for x in range(len(video_files)):
-#         length = len(video_files[x]) - 1
-#         while length > 0:
-#             if ((video_files[x])[length]) == "\\":
-#                 print((video_files[x])[0:length+1])
-#                 break
-#             length = length - 1
