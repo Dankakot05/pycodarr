@@ -37,10 +37,10 @@ def main():
 '.zm1', '.zm2', '.zm3', '.zmv'  )
     
     
-    print(video_search(file_directory))
+    print(file_search(file_directory))
 # searches recursivly for all file extensions in variable 'extensions'
     
-def video_search(file_direct, extensions):
+def file_search(file_direct, extensions):
     files = []
     for x in range(len(extensions)):
         temp = glob.glob(file_direct + f"/**/*.{extensions[x]}", recursive = True)
