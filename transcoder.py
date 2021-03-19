@@ -34,8 +34,8 @@ extensions = (
 
 
 def main():
-    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
-    storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
+    file_directory = (r"")
+    storage_directory = (r"")
     directories = open("blacklist.txt", "w+")
     video_files = file_search(file_directory)
     
