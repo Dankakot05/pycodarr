@@ -57,7 +57,7 @@ def transcode(file, bitrate):
         else:
             break
     stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    stream = ffmpeg.output(stream, output + " transcoded " +".mp4", video_bitrate = bitrate)
     ffmpeg.run(stream)
 
                 
