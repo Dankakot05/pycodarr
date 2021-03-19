@@ -1,4 +1,5 @@
 import glob, csv
+import ffmpeg
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -32,9 +33,12 @@ extensions = (
 
 
 def main():
-    file_directory = (r"")
+    file_directory = (r"/home/alex/Videos/test files/")
+    bitrate = 10000000
     video_files = file_search(file_directory)
-    
+    print(video_files)
+    for i in range(len(video_files)):
+        transcode(video_files[i], bitrate)
 # searches recursivly for all file extensions in variable 'extensions'
 
     
@@ -44,6 +48,18 @@ def file_search(file_direct):
         temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
+
+def transcode(file, bitrate):
+    output = ""
+    for i in range(len(file)):
+        if file[i] != "." :
+            output = output + file[i]
+        else:
+            break
+    stream = ffmpeg.input(file)
+    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    ffmpeg.run(stream)
+
                 
 main()
 
