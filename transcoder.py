@@ -1,5 +1,5 @@
-import glob, ffmpeg
-
+import glob
+import ffmpeg
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -33,11 +33,10 @@ extensions = (
 
 
 def main():
-    file_directory = (r"")
-    storage_directory = (r"")
-    directories = open("blacklist.txt", "w+")
+    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
+    directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
-    
     
     blacklist_list = []
     for line in directories:
@@ -86,5 +85,4 @@ def transcode(file, bitrate):
     stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
     ffmpeg.run(stream)
 
-                
 main()
