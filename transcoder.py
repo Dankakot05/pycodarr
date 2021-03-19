@@ -32,7 +32,7 @@ extensions = (
 
 
 def main():
-    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    file_directory = (r"")
     video_files = file_search(file_directory)
     
 # searches recursivly for all file extensions in variable 'extensions'
