@@ -6,6 +6,7 @@ import ffmpeg
 
 # some random libraries that are used I don't know why
 def main():
+    # enter directory here
     file_directory = (r"")
     extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
