@@ -1,13 +1,6 @@
-from os import walk
-from pprint import pprint
-import glob
-import ffmpeg
-file_directory = (r"")
-#  some random libraries that are used I don't know why
-def main():
-    # enter directory here
-    global file_directory
-    extensions = (
+import glob, csv
+
+extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
 '.aet', '.aetx', '.ajp', '.ale', '.am', '.amc', '.amv', '.amx', '.anim', '.aqt', '.arcut', '.arf', '.asf', '.asx', '.avb',
 '.avc', '.avd', '.avi', '.avp', '.avs', '.avs', '.avv', '.axm', '.bdm', '.bdmv', '.bdt2', '.bdt3', '.bik', '.bin', '.bix',
@@ -36,16 +29,26 @@ def main():
 '.vro', '.vs4', '.vse', '.vsp', '.w32', '.wcp', '.webm', '.wlmp', '.wm', '.wmd', '.wmmp', '.wmv', '.wmx', '.wot', '.wp3',
 '.wpl', '.wtv', '.wve', '.wvx', '.xej', '.xel', '.xesc', '.xfl', '.xlmv', '.xmv', '.xvid', '.y4m', '.yog', '.yuv', '.zeg',
 '.zm1', '.zm2', '.zm3', '.zmv'  )
+
+
+def main():
+    file_directory = (r"")
+    video_files = file_search(file_directory)
     
-    
-    print(file_search(file_directory))
 # searches recursivly for all file extensions in variable 'extensions'
+
     
-def file_search(file_direct, extensions):
+def file_search(file_direct):
     files = []
     for x in range(len(extensions)):
-        temp = glob.glob(file_direct + f"/**/*.{extensions[x]}", recursive = True)
+        temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
                 
 main()
+
+
+'''    with open("blacklist", "a") as directories:
+        for x in range(len(video_files)):
+            directories.write(f"{video_files[x]}\n")
+        directories.close()'''
