@@ -1,5 +1,4 @@
 from os import walk
-from pymediainfo import MediaInfo
 from pprint import pprint
 import glob
 import ffmpeg
