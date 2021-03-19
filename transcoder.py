@@ -1,19 +1,17 @@
-from os import walk
 from pymediainfo import MediaInfo
 from pprint import pprint
+import glob
 
 # some random libraries that are used I don't know why
-
-file_direct = (r"")
-
-def video_search(file_direct):
-    video_file_list = []
-    _, _, filenames = next(walk(file_direct))
-    for x in range(len(filenames)):
-        fileInfo = MediaInfo.parse(fr"{file_direct}\{filenames[x]}")
-        for track in fileInfo.tracks:
-            if track.track_type == "Video":
-                video_file_list.append(filenames[x])
-    return video_file_list
-                
+def main():
+    file_directory = (r"")
+    extensions = ["mp4"]
+    print(video_search(file_directory, extensions))
+# searches recursivly for all file extensions in variable 'extensions'
     
+def video_search(file_direct, extensions):
+    files = []
+    for x in range(len(extensions)):
+        temp = glob.glob(file_direct + f"/**/*.{extensions[x]}", recursive = True)
+                
+main()
