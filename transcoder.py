@@ -2,6 +2,7 @@ from os import walk
 from pymediainfo import MediaInfo
 from pprint import pprint
 import glob
+import ffmpeg
 
 # some random libraries that are used I don't know why
 def main():
