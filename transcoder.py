@@ -63,7 +63,6 @@ def transcode(file, bitrate):
                 
 main()
 
-
 '''    with open("blacklist", "a") as directories:
         for x in range(len(video_files)):
             directories.write(f"{video_files[x]}\n")
