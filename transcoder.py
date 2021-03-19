@@ -4,7 +4,7 @@ from pprint import pprint
 
 # some random libraries that are used I don't know why
 
-file_direct = (r"directory")
+file_direct = (r"")
 
 # sets the file directory to be used to make changing directories easier
 
