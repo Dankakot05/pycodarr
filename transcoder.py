@@ -1,4 +1,4 @@
-import glob, csv
+import glob
 import ffmpeg
 
 extensions = (
@@ -33,15 +33,42 @@ extensions = (
 
 
 def main():
-    file_directory = (r"")
-    bitrate = 1000000
+    file_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media")
+    storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
+    directories = open("blacklist.txt", "a+")
+    video_files = file_search(file_directory)
+    
+    blacklist_list = []
+    directories = open("blacklist.txt")
+    lines = directories.readlines()
+    for line in lines:
+        blacklist_list.append(line.strip())
+    for x in range(len(video_files)):
+        if not list_check((video_files[x]), blacklist_list):
+            directories = open("blacklist.txt", "a+")
+            directories.write(f"{video_files[x]}\n")
+        else:
+            print("in blacklist")
+    
+
+def list_check(user_input, c_list):  # Takes a list and compares users input against it
+    for index in range(len(c_list)):
+        if c_list[index] == user_input:
+            return True
+    return False
+
+
+    file_directory = (r" ")
+    bitrate = 10000000
     video_files = file_search(file_directory)
     print(video_files)
     for i in range(len(video_files)):
         transcode(video_files[i], bitrate)
+        
+        
 # searches recursivly for all file extensions in variable 'extensions'
 
-    
+
 def file_search(file_direct):
     files = []
     for x in range(len(extensions)):
@@ -49,7 +76,7 @@ def file_search(file_direct):
         files.extend(temp)
     return files
 
-# Transcodes the file. Currently does not support hardware encoding is planned.
+
 def transcode(file, bitrate):
     output = ""
     for i in range(len(file)):
@@ -58,13 +85,7 @@ def transcode(file, bitrate):
         else:
             break
     stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate, vcodec="libx265")
+    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
     ffmpeg.run(stream)
 
-                
 main()
-
-'''    with open("blacklist", "a") as directories:
-        for x in range(len(video_files)):
-            directories.write(f"{video_files[x]}\n")
-        directories.close()'''
