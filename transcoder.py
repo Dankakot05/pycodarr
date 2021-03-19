@@ -33,11 +33,12 @@ extensions = (
 
 
 def main():
-    file_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media")
+    file_directory = (r"/home/alex/Videos/test files/")
     storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
-    
+
+    transcode_files = []
     blacklist_list = []
     directories = open("blacklist.txt")
     lines = directories.readlines()
@@ -47,9 +48,14 @@ def main():
         if not list_check((video_files[x]), blacklist_list):
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
+            transcode_files.append(video_files[x])
         else:
             print("in blacklist")
-    
+    print(transcode_files)
+    bitrate = 100000
+    for i in range(len(transcode_files)):
+        transcode(transcode_files[i], bitrate)
+
 
 def list_check(user_input, c_list):  # Takes a list and compares users input against it
     for index in range(len(c_list)):
@@ -58,13 +64,8 @@ def list_check(user_input, c_list):  # Takes a list and compares users input aga
     return False
 
 
-    file_directory = (r" ")
-    bitrate = 10000000
-    video_files = file_search(file_directory)
-    print(video_files)
-    for i in range(len(video_files)):
-        transcode(video_files[i], bitrate)
-        
+
+
         
 # searches recursivly for all file extensions in variable 'extensions'
 
