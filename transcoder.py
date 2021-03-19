@@ -1,5 +1,4 @@
 from os import walk
-from pkg_resources import cleanup_resources
 from pymediainfo import MediaInfo
 from pprint import pprint
 
