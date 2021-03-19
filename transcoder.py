@@ -3,11 +3,11 @@ from pymediainfo import MediaInfo
 from pprint import pprint
 import glob
 import ffmpeg
-
+file_directory = (r"")
 # some random libraries that are used I don't know why
 def main():
     # enter directory here
-    file_directory = (r"")
+    global file_directory
     extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
 '.aet', '.aetx', '.ajp', '.ale', '.am', '.amc', '.amv', '.amx', '.anim', '.aqt', '.arcut', '.arf', '.asf', '.asx', '.avb',
