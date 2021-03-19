@@ -6,19 +6,14 @@ from pprint import pprint
 
 file_direct = (r"")
 
-# sets the file directory to be used to make changing directories easier
-
-_, _, filenames = next(walk(file_direct))
-
-# saves a list of all files in the directory specified
-
-for x in range(len(filenames)):
-    fileInfo = MediaInfo.parse(fr"{file_direct}\{filenames[x]}")
+def video_search(file_direct):
+    video_file_list = []
+    _, _, filenames = next(walk(file_direct))
+    for x in range(len(filenames)):
+        fileInfo = MediaInfo.parse(fr"{file_direct}\{filenames[x]}")
+        for track in fileInfo.tracks:
+            if track.track_type == "Video":
+                video_file_list.append(filenames[x])
+    return video_file_list
+                
     
-    # checks if any files in the directory are video files
-    
-    for track in fileInfo.tracks:
-        if track.track_type == "Video":
-            extension = ((filenames[x])[len(filenames[x])-4:len(filenames[x])])
-            print(extension)
-            
