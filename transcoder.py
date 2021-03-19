@@ -3,7 +3,7 @@ from pprint import pprint
 import glob
 import ffmpeg
 file_directory = (r"")
-# some random libraries that are used I don't know why
+#  some random libraries that are used I don't know why
 def main():
     # enter directory here
     global file_directory
