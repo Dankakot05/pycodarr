@@ -33,26 +33,29 @@ extensions = (
 
 
 def main():
-    file_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media")
+    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
     storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
     
     blacklist_list = []
-    for line in directories:
-        blacklist_list.append(line)
+    directories = open("blacklist.txt")
+    lines = directories.readlines()
+    for line in lines:
+        blacklist_list.append(line.strip())
     for x in range(len(video_files)):
-        if not compare_list(video_files[x], blacklist_list):
+        if not list_check((video_files[x]), blacklist_list):
+            directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
-            
+        else:
+            print("in blacklist")
+    
 
-def compare_list(user_input, c_list):  # Takes a list and compares users input against it
-    found = False
+def list_check(user_input, c_list):  # Takes a list and compares users input against it
     for index in range(len(c_list)):
         if c_list[index] == user_input:
-            found = True
-            break
-    return found
+            return True
+    return False
 
 
     file_directory = (r" ")
