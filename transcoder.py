@@ -1,6 +1,5 @@
 import glob, csv
 
-
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
 '.aet', '.aetx', '.ajp', '.ale', '.am', '.amc', '.amv', '.amx', '.anim', '.aqt', '.arcut', '.arf', '.asf', '.asx', '.avb',
@@ -33,15 +32,23 @@ extensions = (
 
 
 def main():
-    file_directory = (r"")
-    print(file_search(file_directory))
-# searches recursivly for all file extensions in variable 'extensions'
+    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    video_files = file_search(file_directory)
     
-def file_search(file_direct, extensions):
+# searches recursivly for all file extensions in variable 'extensions'
+
+    
+def file_search(file_direct):
     files = []
     for x in range(len(extensions)):
-        temp = glob.glob(file_direct + f"/**/*.{extensions[x]}", recursive = True)
+        temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
                 
 main()
+
+
+'''    with open("blacklist", "a") as directories:
+        for x in range(len(video_files)):
+            directories.write(f"{video_files[x]}\n")
+        directories.close()'''
