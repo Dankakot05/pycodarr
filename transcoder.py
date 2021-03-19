@@ -33,8 +33,8 @@ extensions = (
 
 
 def main():
-    file_directory = (r" ")
-    bitrate = 10000000
+    file_directory = (r"")
+    bitrate = 1000000
     video_files = file_search(file_directory)
     print(video_files)
     for i in range(len(video_files)):
@@ -49,6 +49,7 @@ def file_search(file_direct):
         files.extend(temp)
     return files
 
+# Transcodes the file. Currently does not support hardware encoding is planned.
 def transcode(file, bitrate):
     output = ""
     for i in range(len(file)):
@@ -57,7 +58,7 @@ def transcode(file, bitrate):
         else:
             break
     stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate, vcodec="libx265")
     ffmpeg.run(stream)
 
                 
