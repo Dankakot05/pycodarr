@@ -1,4 +1,4 @@
-import glob, csv
+import glob
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -33,22 +33,48 @@ extensions = (
 
 def main():
     file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
+    directories = open("blacklist.txt", "w+")
     video_files = file_search(file_directory)
     
-# searches recursivly for all file extensions in variable 'extensions'
+    blacklist_list = []
+    for line in directories:
+        blacklist_list.append(line)
+    for x in range(len(video_files)):
+        if not compare_list(video_files[x], blacklist_list):
+            directories.write(f"{video_files[x]}\n")
+            
 
-    
+def compare_list(user_input, c_list):  # Takes a list and compares users input against it
+    found = False
+    for index in range(len(c_list)):
+        if c_list[index] == user_input:
+            found = True
+            break
+    return found
+
 def file_search(file_direct):
     files = []
     for x in range(len(extensions)):
         temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
+ 
+
+
+            
                 
 main()
 
-
-'''    with open("blacklist", "a") as directories:
-        for x in range(len(video_files)):
-            directories.write(f"{video_files[x]}\n")
-        directories.close()'''
+#    with open("blacklist", "a") as directories:
+#         for x in range(len(video_files)):
+#             directories.write(f"{video_files[x]}\n")
+#         directories.close()
+        
+#    for x in range(len(video_files)):
+#         length = len(video_files[x]) - 1
+#         while length > 0:
+#             if ((video_files[x])[length]) == "\\":
+#                 print((video_files[x])[0:length+1])
+#                 break
+#             length = length - 1
