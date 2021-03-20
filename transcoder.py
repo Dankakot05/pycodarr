@@ -52,8 +52,8 @@ def main():
         end = (find_char(transcode_files[x], "."))
         begining = (find_char(transcode_files[x], "\\"))
         file_name = ((transcode_files[x])[begining:end])
-        print(transcode_files[begining:end])
-            
+        print(file_name)
+        
 def transcode(file, bitrate):
     output = ""
     for i in range(len(file)):
