@@ -1,4 +1,5 @@
-import glob, ffmpeg
+import glob, ffmpeg, os, subprocess
+
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -31,68 +32,57 @@ extensions = (
 '.zm1', '.zm2', '.zm3', '.zmv'  )
 
 
+
 def main():
     file_directory = (r"")
     storage_directory = (r"")
     directories = open("blacklist.txt", "a+")
-    video_files = file_search(file_directory)
-
     transcode_files = []
     blacklist_list = []
     file_storage = []
+    
+    video_files = file_search(file_directory)
     directories = open("blacklist.txt")
     lines = directories.readlines()
     for line in lines:
         blacklist_list.append(line.strip())
-    for x in video_files:
+    for x in range(len(video_files)):
         if not list_check((video_files[x]), blacklist_list):
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
             transcode_files.append(video_files[x])
-            
-    
-def transcode(file, bitrate):
-    output = ""
-    for i in range(len(file)):
-        if file[i] != "." :
-            output = output + file[i]
-        else:
-            break
+
+
+    for file in transcode_files:
+        out = file.split(".")
+        transcode(file, 10000000, out[0], "mp4", "libx264")
+        print(file)
+        
+        
+        
+def transcode(file, bitrate, output, type, encoder):
+    print("Transcoding ", file)
     stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    stream = ffmpeg.output(stream, output + " transcoded " + "." + type , video_bitrate = bitrate, vcodec = encoder)
     ffmpeg.run(stream)
 
-def find_char(string, char):
-    length = len(string) - 1
-    while length > 0:
-        if string[length] == char:
-            return length
-        length = length - 1
-
-    # print(transcode_files)
-    # bitrate = 100000
-    # for i in range(len(transcode_files)):
-    #     transcode(transcode_files[i], bitrate)
-
+    
 
 def list_check(user_input, c_list):  # Takes a list and compares users input against it
-    for index in c_list:
+    for index in range(len(c_list)):
         if c_list[index] == user_input:
             return True
     return False
 
 
 
-
-        
-
-
 def file_search(file_direct):
     files = []
-    for x in extensions:
+    for x in range(len(extensions)):
         temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
+
 
 
 main()
