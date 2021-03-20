@@ -32,13 +32,14 @@ extensions = (
 
 
 def main():
-    file_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media")
-    storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
+    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    storage_directory = (r"C:\Users\Daniil Koterov\Desktop\Test\storage")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
 
     transcode_files = []
     blacklist_list = []
+    file_storage = []
     directories = open("blacklist.txt")
     lines = directories.readlines()
     for line in lines:
@@ -48,12 +49,12 @@ def main():
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
             transcode_files.append(video_files[x])
+            
     for x in range(len(transcode_files)):
         end = (find_char(transcode_files[x], "."))
         begining = (find_char(transcode_files[x], "\\"))
-        file_name = ((transcode_files[x])[begining:end])
-        print(file_name)
-        
+        file = ((storage_directory + (transcode_files[x])[begining:end])+ ".mkv")
+
 def transcode(file, bitrate):
     output = ""
     for i in range(len(file)):
