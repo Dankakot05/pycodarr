@@ -1,4 +1,5 @@
-import glob, csv
+import glob
+import ffmpeg
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -32,23 +33,60 @@ extensions = (
 
 
 def main():
-    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    file_directory = (r"")
+    storage_directory = (r"")
+    directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
-    
+
+    transcode_files = []
+    blacklist_list = []
+    directories = open("blacklist.txt")
+    lines = directories.readlines()
+    for line in lines:
+        blacklist_list.append(line.strip())
+    for x in range(len(video_files)):
+        if not list_check((video_files[x]), blacklist_list):
+            directories = open("blacklist.txt", "a+")
+            directories.write(f"{video_files[x]}\n")
+            transcode_files.append(video_files[x])
+        else:
+            print("in blacklist")
+    print(transcode_files)
+    bitrate = 100000
+    for i in range(len(transcode_files)):
+        transcode(transcode_files[i], bitrate)
+
+
+def list_check(user_input, c_list):  # Takes a list and compares users input against it
+    for index in range(len(c_list)):
+        if c_list[index] == user_input:
+            return True
+    return False
+
+
+
+
+        
 # searches recursivly for all file extensions in variable 'extensions'
 
-    
+
 def file_search(file_direct):
     files = []
     for x in range(len(extensions)):
         temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
-                
+
+
+def transcode(file, bitrate):
+    output = ""
+    for i in range(len(file)):
+        if file[i] != "." :
+            output = output + file[i]
+        else:
+            break
+    stream = ffmpeg.input(file)
+    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    ffmpeg.run(stream)
+
 main()
-
-
-'''    with open("blacklist", "a") as directories:
-        for x in range(len(video_files)):
-            directories.write(f"{video_files[x]}\n")
-        directories.close()'''
