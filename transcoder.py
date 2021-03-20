@@ -32,8 +32,8 @@ extensions = (
 
 
 def main():
-    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
-    storage_directory = (r"C:\Users\Daniil Koterov\Desktop\Test\storage")
+    file_directory = (r"")
+    storage_directory = (r"")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
 
@@ -49,21 +49,20 @@ def main():
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
             transcode_files.append(video_files[x])
-            
-    for x in range(len(transcode_files)):
-        end = (find_char(transcode_files[x], "."))
-        begining = (find_char(transcode_files[x], "\\"))
-        file = ((storage_directory + (transcode_files[x])[begining:end])+ ".mkv")
+    print(transcode_files)
+    for file in transcode_files:
+        transcode(file, 10000000, file)
+        print(file)
 
-def transcode(file, bitrate):
-    output = ""
-    for i in range(len(file)):
-        if file[i] != "." :
-            output = output + file[i]
-        else:
-            break
+#    for i in range(len(transcode_files)):
+#        transcode(transcode_files[i], 100000, transcode_files[i])
+#        print(transcode_files[i])
+
+def transcode(file, bitrate, output):
+    output = file.split(("."))
+    print("Transcoding ", file)
     stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    stream = ffmpeg.output(stream, output[1] + "transcoded" + ".mp4", video_bitrate = bitrate)
     ffmpeg.run(stream)
 
 def find_char(string, char):
@@ -72,7 +71,7 @@ def find_char(string, char):
         if string[length] == char:
             return length
         length = length - 1
-# removes files in blacklist from video_files list    
+# removes files in blacklist from video_files list
 
     # print(transcode_files)
     # bitrate = 100000
@@ -89,7 +88,7 @@ def list_check(user_input, c_list):  # Takes a list and compares users input aga
 
 
 
-        
+
 # searches recursivly for all file extensions in variable 'extensions'
 
 
