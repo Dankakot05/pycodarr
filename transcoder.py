@@ -33,7 +33,7 @@ extensions = (
 
 
 def main():
-    file_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media")
+    file_directory = (r"")
     storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
@@ -48,8 +48,9 @@ def main():
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
         else:
-            print("in blacklist")
-    
+            video_files.pop(x) 
+
+# removes files in blacklist from video_files list    
 
 def list_check(user_input, c_list):  # Takes a list and compares users input against it
     for index in range(len(c_list)):
