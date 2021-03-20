@@ -1,4 +1,4 @@
-import glob, ffmpeg, os, subprocess
+import glob, ffmpeg
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -50,11 +50,7 @@ def main():
             directories.write(f"{video_files[x]}\n")
             transcode_files.append(video_files[x])
             
-    for x in range(len(transcode_files)):
-        end = (find_char(transcode_files[x], "."))
-        begining = (find_char(transcode_files[x], "\\"))
-        file = ((storage_directory + (transcode_files[x])[begining:end])+ ".mkv")
-
+    
 def transcode(file, bitrate):
     output = ""
     for i in range(len(file)):
@@ -72,7 +68,6 @@ def find_char(string, char):
         if string[length] == char:
             return length
         length = length - 1
-# removes files in blacklist from video_files list    
 
     # print(transcode_files)
     # bitrate = 100000
@@ -90,7 +85,6 @@ def list_check(user_input, c_list):  # Takes a list and compares users input aga
 
 
         
-# searches recursivly for all file extensions in variable 'extensions'
 
 
 def file_search(file_direct):
