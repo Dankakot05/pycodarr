@@ -1,5 +1,4 @@
-import glob
-import ffmpeg
+import glob, ffmpeg, os, subprocess
 
 extensions = (
 '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d', '.787', '.89', '.aaf', '.aec', '.aep', '.aepx',
@@ -33,7 +32,7 @@ extensions = (
 
 
 def main():
-    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    file_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media")
     storage_directory = (r"/srv/dev-disk-by-uuid-29f77b19-5a09-4aea-8c27-fe058c28d428/media/storage")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
@@ -49,7 +48,29 @@ def main():
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
             transcode_files.append(video_files[x])
+    for x in range(len(transcode_files)):
+        end = (find_char(transcode_files[x], "."))
+        begining = (find_char(transcode_files[x], "\\"))
+        file_name = ((transcode_files[x])[begining:end])
+        print(transcode_files[begining:end])
+            
+def transcode(file, bitrate):
+    output = ""
+    for i in range(len(file)):
+        if file[i] != "." :
+            output = output + file[i]
+        else:
+            break
+    stream = ffmpeg.input(file)
+    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
+    ffmpeg.run(stream)
 
+def find_char(string, char):
+    length = len(string) - 1
+    while length > 0:
+        if string[length] == char:
+            return length
+        length = length - 1
 # removes files in blacklist from video_files list    
 
     # print(transcode_files)
@@ -78,16 +99,5 @@ def file_search(file_direct):
         files.extend(temp)
     return files
 
-
-def transcode(file, bitrate):
-    output = ""
-    for i in range(len(file)):
-        if file[i] != "." :
-            output = output + file[i]
-        else:
-            break
-    stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream, output + "transcoded" +".mp4", video_bitrate = bitrate)
-    ffmpeg.run(stream)
 
 main()
