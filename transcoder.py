@@ -32,8 +32,8 @@ extensions = (
 
 
 def main():
-    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
-    storage_directory = (r"C:\Users\Daniil Koterov\Desktop\Test\storage")
+    file_directory = (r"")
+    storage_directory = (r"")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
 
@@ -44,7 +44,7 @@ def main():
     lines = directories.readlines()
     for line in lines:
         blacklist_list.append(line.strip())
-    for x in range(len(video_files)):
+    for x in video_files:
         if not list_check((video_files[x]), blacklist_list):
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video_files[x]}\n")
@@ -76,7 +76,7 @@ def find_char(string, char):
 
 
 def list_check(user_input, c_list):  # Takes a list and compares users input against it
-    for index in range(len(c_list)):
+    for index in c_list:
         if c_list[index] == user_input:
             return True
     return False
@@ -89,7 +89,7 @@ def list_check(user_input, c_list):  # Takes a list and compares users input aga
 
 def file_search(file_direct):
     files = []
-    for x in range(len(extensions)):
+    for x in extensions:
         temp = glob.glob(file_direct + f"/**/*{extensions[x]}", recursive = True)
         files.extend(temp)
     return files
