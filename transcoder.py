@@ -32,7 +32,7 @@ extensions = (
 
 
 def main():
-    file_directory = (r"/home/alex/Videos/test files/")
+    file_directory = (r"")
     storage_directory = (r"")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
