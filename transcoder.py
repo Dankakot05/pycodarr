@@ -32,7 +32,7 @@ extensions = (
 
 
 def main():
-    file_directory = (r"")
+    file_directory = (r"/home/alex/Videos/test files/")
     storage_directory = (r"")
     directories = open("blacklist.txt", "a+")
     video_files = file_search(file_directory)
@@ -50,19 +50,21 @@ def main():
             directories.write(f"{video_files[x]}\n")
             transcode_files.append(video_files[x])
     print(transcode_files)
+
+
     for file in transcode_files:
-        transcode(file, 10000000, file)
+        out = file.split(".")
+        transcode(file, 10000000, out[0], "mp4", "libx264")
         print(file)
 
 #    for i in range(len(transcode_files)):
 #        transcode(transcode_files[i], 100000, transcode_files[i])
 #        print(transcode_files[i])
 
-def transcode(file, bitrate, output):
-    output = file.split(("."))
+def transcode(file, bitrate, output, type, encoder):
     print("Transcoding ", file)
     stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream, output[1] + "transcoded" + ".mp4", video_bitrate = bitrate)
+    stream = ffmpeg.output(stream, output + " transcoded " + "." + type , video_bitrate = bitrate, vcodec = encoder)
     ffmpeg.run(stream)
 
 def find_char(string, char):
