@@ -51,7 +51,7 @@ extensions = [
 
 
 def main():
-    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+    file_directory = (r"")
     directories = open("blacklist.txt", "a+")
     transcode_files = []
     blacklist_list = []
