@@ -1,4 +1,4 @@
-import glob, ffmpeg, os, subprocess
+import glob, ffmpeg, pymediainfo
 
 extensions = [
     '.264', '.3g2', '.3gp', '.3gp2', '.3gpp', '.3gpp2', '.3mm', '.3p2', '.60d',
@@ -51,12 +51,10 @@ extensions = [
 
 
 def main():
-    file_directory = (r"")
-    storage_directory = (r"")
+    file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
     directories = open("blacklist.txt", "a+")
     transcode_files = []
     blacklist_list = []
-    file_storage = []
 
     video_files = file_search(file_directory)
     directories = open("blacklist.txt")
@@ -64,14 +62,18 @@ def main():
     for line in lines:
         blacklist_list.append(line.strip())
     for video in video_files:
-        if not list_check(video, blacklist_list):
+        media_info = pymediainfo.MediaInfo.parse(video)
+        for track in media_info.tracks:
+            if track.track_type == "Video":
+                format = str(track.format)
+        if not list_check(video, blacklist_list) or format == "HEVC":
             directories = open("blacklist.txt", "a+")
             directories.write(f"{video}\n")
             transcode_files.append(video)
 
     for file in transcode_files:
         out = file.split(".")
-        transcode(file, 10000000, out[0], "mp4", "libx264")
+        transcode(file, 10000000, out[0], "mkv", "libx265")
         print(file)
 
 
