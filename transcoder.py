@@ -1,3 +1,4 @@
+
 import glob, ffmpeg, pymediainfo
 
 extensions = [
@@ -49,60 +50,59 @@ extensions = [
     '.xvid', '.y4m', '.yog', '.yuv', '.zeg', '.zm1', '.zm2', '.zm3', '.zmv'
 ]
 
+while True:
+    def main():
+        file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+        file_container = ".mvk"
+        transcode_files = []
+        blacklist_list = []
 
-def main():
-    file_directory = (r"")
-    directories = open("blacklist.txt", "a+")
-    transcode_files = []
-    blacklist_list = []
-    extension = ".mkv"
+        video_files = file_search(file_directory)
+        with open("blacklist.txt", "a+") as directories:
+            lines = directories.readlines()
+            for line in lines:
+                blacklist_list.append(line.strip())
+            for video in video_files:
+                media_info = pymediainfo.MediaInfo.parse(video)
+                for track in media_info.tracks:
+                    if track.track_type == "Video":
+                        format = str(track.format)
+                        if not list_check(video, blacklist_list) or format == "HEVC":
+                            out = video.split(".")
+                            directories.write(f"{out[0]}+{file_container}\n")
+                            transcode_files.append(video)
 
-    video_files = file_search(file_directory)
-    directories = open("blacklist.txt")
-    lines = directories.readlines()
-    for line in lines:
-        blacklist_list.append(line.strip())
-    for video in video_files:
-        media_info = pymediainfo.MediaInfo.parse(video)
-        for track in media_info.tracks:
-            if track.track_type == "Video":
-                format = str(track.format)
-            if not list_check(video, blacklist_list) or format == "HEVC":
-                out = video.split(".")
-                directories = open("blacklist.txt", "a+")
-                directories.write(f"{out[0]+{extension}\n")
-                transcode_files.append(video)
-
-    for file in transcode_files:
-        out = file.split(".")
-        transcode(file, 10000000, out[0], extension, "libx265")
-        print(file)
+        for file in transcode_files:
+            out = file.split(".")
+            transcode(file, 10000000, out[0], file_container, "libx265")
+            print(file)
 
 
-def transcode(file, bitrate, output, type, encoder):
-    print("Transcoding ", file)
-    stream = ffmpeg.input(file)
-    stream = ffmpeg.output(stream,
-                           output + " transcoded " + "." + type,
-                           video_bitrate=bitrate,
-                           vcodec=encoder)
-    ffmpeg.run(stream)
+    def transcode(file, bitrate, output, type, encoder):
+        print("Transcoding ", file)
+        stream = ffmpeg.input(file)
+        stream = ffmpeg.output(stream,
+                            output + " transcoded " + "." + type,
+                            video_bitrate=bitrate,
+                            vcodec=encoder)
+        stream = stream.global_args(stream, "-metadata:s:t:0", "-cv libx265", "-x265-params", "-c:a:")
+        ffmpeg.run(stream)
 
 
-# Takes a list and compares users input against it
-def list_check(user_input, c_list):
-    for item in c_list:
-        if item == user_input:
-            return True
-    return False
+    # Takes a list and compares users input against it
+    def list_check(user_input, c_list):
+        for item in c_list:
+            if item == user_input:
+                return True
+        return False
 
 
-def file_search(file_direct):
-    files = []
-    for x in extensions:
-        temp = glob.glob(file_direct + f"/**/*{x}", recursive=True)
-        files.extend(temp)
-    return files
+    def file_search(file_direct):
+        files = []
+        for x in extensions:
+            temp = glob.glob(file_direct + f"/**/*{x}", recursive=True)
+            files.extend(temp)
+        return files
 
 
-main()
+    main()
