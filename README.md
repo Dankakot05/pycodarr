@@ -1,2 +1,2 @@
-# pycodarr
+# **pycodarr**
 python transcoder using FFMPEG
