@@ -55,6 +55,7 @@ def main():
     directories = open("blacklist.txt", "a+")
     transcode_files = []
     blacklist_list = []
+    extension = "mkv
 
     video_files = file_search(file_directory)
     directories = open("blacklist.txt")
@@ -66,15 +67,15 @@ def main():
         for track in media_info.tracks:
             if track.track_type == "Video":
                 format = str(track.format)
-        if not list_check(video, blacklist_list) or format == "HEVC":
-            out = video.spli(".")
-                        directories = open("blacklist.txt", "a+")
-            directories.write(f"{video[0]+{extension}\n")
-            transcode_files.append(video)
+            if not list_check(video, blacklist_list) or format == "HEVC":
+                out = video.split(".")
+                directories = open("blacklist.txt", "a+")
+                directories.write(f"{video[0]+{extension}\n")
+                transcode_files.append(video)
 
     for file in transcode_files:
         out = file.split(".")
-        transcode(file, 10000000, out[0], "mkv", "libx265")
+        transcode(file, 10000000, out[0], extension, "libx265")
         print(file)
 
 
