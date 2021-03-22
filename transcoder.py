@@ -70,7 +70,7 @@ def main():
             if not list_check(video, blacklist_list) or format == "HEVC":
                 out = video.split(".")
                 directories = open("blacklist.txt", "a+")
-                directories.write(f"{video[0]+{extension}\n")
+                directories.write(f"{out[0]+{extension}\n")
                 transcode_files.append(video)
 
     for file in transcode_files:
