@@ -52,7 +52,7 @@ extensions = [
 
 while True:
     def main():
-        file_directory = (r"C:\Users\Daniil Koterov\Desktop\Test")
+        file_directory = (r"")
         file_container = ".mvk"
         transcode_files = []
         blacklist_list = []
