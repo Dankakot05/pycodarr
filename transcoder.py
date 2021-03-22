@@ -67,8 +67,9 @@ def main():
             if track.track_type == "Video":
                 format = str(track.format)
         if not list_check(video, blacklist_list) or format == "HEVC":
-            directories = open("blacklist.txt", "a+")
-            directories.write(f"{video}\n")
+            out = video.spli(".")
+                        directories = open("blacklist.txt", "a+")
+            directories.write(f"{video[0]+{extension}\n")
             transcode_files.append(video)
 
     for file in transcode_files:
