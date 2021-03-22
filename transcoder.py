@@ -63,14 +63,10 @@ while True:
             for line in lines:
                 blacklist_list.append(line.strip())
             for video in video_files:
-                media_info = pymediainfo.MediaInfo.parse(video)
-                for track in media_info.tracks:
-                    if track.track_type == "Video":
-                        format = str(track.format)
-                        if not list_check(video, blacklist_list) or format == "HEVC":
-                            out = video.split(".")
-                            directories.write(f"{out[0]}+{file_container}\n")
-                            transcode_files.append(video)
+                if not list_check(video, blacklist_list):
+                    out = video.split(".")
+                    directories.write(f"{out[0]}+{file_container}\n")
+                    transcode_files.append(video)
 
         for file in transcode_files:
             out = file.split(".")
