@@ -1,7 +1,5 @@
 # pycodarr
 python transcoder using FFMPEG
-Bee Movie Script - Dialogue Transcript
-
   
 According to all known laws
 of aviation,
