@@ -55,7 +55,7 @@ def main():
     directories = open("blacklist.txt", "a+")
     transcode_files = []
     blacklist_list = []
-    extension = "mkv
+    extension = ".mkv"
 
     video_files = file_search(file_directory)
     directories = open("blacklist.txt")
